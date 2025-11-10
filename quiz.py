@@ -81,13 +81,41 @@ if "sampled_quiz" not in st.session_state:
 st.title("볼링 상식 퀴즈")
 st.text("")
 st.markdown("**5문제 중 3문제 이상 맞추면 선물을 드려요~**")
-st.text("")
-
+st.divider()
 # 퀴즈 화면
+# for idx, q in enumerate(st.session_state.sampled_quiz):
+#     st.write(f"Q{idx + 1}. {q['question']}")
+#     st.session_state.user_answers[idx] = st.radio(
+#         f"보기 {idx+1}", q['choices'], index=None, key=f"quiz_{idx}")
+# # 스타일 정의 (한 번만 하면 됨)
+# st.markdown(
+#     """
+#     <style>
+#     .question-box {
+#         border: 2px solid #4CAF50;
+#         border-radius: 10px;
+#         padding: 15px;
+#         margin-bottom: 15px;
+#         background-color: #f9f9f9;
+#     }
+#     </style>
+#     """, unsafe_allow_html=True)
+
+# # 문제 별 출력
+# for idx, q in enumerate(st.session_state.sampled_quiz):
+#     st.markdown(f"<div class='question-box'>", unsafe_allow_html=True)  # 박스 시작
+#     st.write(f"Q{idx + 1}. {q['question']}")                            # 문제
+#     st.session_state.user_answers[idx] = st.radio(
+#         f"보기 {idx+1}", q['choices'], index=None, key=f"quiz_{idx}")   # 선택지
+#     st.markdown("</div>", unsafe_allow_html=True)                      # 박스 닫기
+
 for idx, q in enumerate(st.session_state.sampled_quiz):
-    st.write(f"Q{idx + 1}. {q['question']}")
+    st.markdown(f"**Q{idx + 1}. {q['question']}**")  # 문제번호와 질문을 굵게
     st.session_state.user_answers[idx] = st.radio(
         f"보기 {idx+1}", q['choices'], index=None, key=f"quiz_{idx}")
+    st.divider()  # 각 문제 끝에 구분선 삽입
+
+
 
 # 제출 버튼
 if st.button("최종 제출"):
@@ -107,6 +135,34 @@ if st.button("최종 제출"):
 #     st.write(f"총 {correct_count}개 맞춤!")
 #     st.balloons()
 
+# if st.session_state.submitted:
+#     correct_count = 0
+#     for idx, q in enumerate(st.session_state.sampled_quiz):
+#         user_ans = st.session_state.user_answers[idx]
+#         if user_ans == q["answer"]:
+#             correct_count += 1
+
+#     # 맞춘 개수 먼저 크게 보여주기
+#     st.markdown(f"<h2>총 {correct_count}개 맞춤!</h2>", unsafe_allow_html=True)
+
+#     # 맞춘 개수에 따른 축하 또는 격려 메시지
+#     if correct_count >= 3:
+#         st.text("축하합니다. 선물을 받아가세요!")
+#     else:
+#         st.text("아쉽네요. 참여 선물을 받아가세요~")
+
+#     # 개별 문제별 정답/오답과 해설 출력
+#     for idx, q in enumerate(st.session_state.sampled_quiz):
+#         user_ans = st.session_state.user_answers[idx]
+#         if user_ans == q["answer"]:
+#             st.success(f"{idx+1}번 정답! ({user_ans})")
+#         else:
+#             st.error(f"{idx+1}번 오답! (선택: {user_ans}, 정답: {q['answer']})")
+#         st.info(f"해설: {q['explanation']}")
+
+#     st.balloons()
+
+
 if st.session_state.submitted:
     correct_count = 0
     for idx, q in enumerate(st.session_state.sampled_quiz):
@@ -114,23 +170,25 @@ if st.session_state.submitted:
         if user_ans == q["answer"]:
             correct_count += 1
 
-    # 맞춘 개수 먼저 크게 보여주기
     st.markdown(f"<h2>총 {correct_count}개 맞춤!</h2>", unsafe_allow_html=True)
 
-    # 맞춘 개수에 따른 축하 또는 격려 메시지
     if correct_count >= 3:
         st.text("축하합니다. 선물을 받아가세요!")
     else:
         st.text("아쉽네요. 참여 선물을 받아가세요~")
 
-    # 개별 문제별 정답/오답과 해설 출력
     for idx, q in enumerate(st.session_state.sampled_quiz):
         user_ans = st.session_state.user_answers[idx]
-        if user_ans == q["answer"]:
-            st.success(f"{idx+1}번 정답! ({user_ans})")
-        else:
-            st.error(f"{idx+1}번 오답! (선택: {user_ans}, 정답: {q['answer']})")
-        st.info(f"해설: {q['explanation']}")
+
+        # 박스 스타일 HTML과 CSS
+        box_html = f"""
+        <div style='border:2px solid #4CAF50; border-radius:10px; padding:15px; margin-bottom:10px;'>
+            <b>Q{idx+1}. {q['question']}</b><br>
+            {'정답' if user_ans == q["answer"] else '오답'}: {user_ans} (정답: {q['answer']})<br>
+            해설: {q['explanation']}
+        </div>
+        """
+        st.markdown(box_html, unsafe_allow_html=True)
 
     st.balloons()
 
