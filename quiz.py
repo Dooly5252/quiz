@@ -82,7 +82,7 @@ st.title("볼링 상식 퀴즈!!")
 st.text("")
 st.markdown("**5문제 중 3문제 이상 맞추면 선물을 드려요~**")
 st.markdown("**볼링 동호회 가입 해주실거죠??!!**")
-st.markdown("가입 문의 :")
+st.markdown("가입 문의 : 네이버 웍스 or 메신져 or 메일")
 st.markdown("Service AI개발팀 김도형 A / OP기획팀 황혜림 M")
 st.divider()
 # 퀴즈 화면
