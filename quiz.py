@@ -80,7 +80,7 @@ if "sampled_quiz" not in st.session_state:
 
 st.title("볼링 상식 퀴즈!!")
 st.text("")
-st.markdown("**5문제 중 3문제 이상 맞추면 선물을 드려요~**")
+st.markdown("**5문제 모두 맞추면 선물을 드려요~**")
 st.markdown("**볼링 동호회 가입 해주실거죠??!!**")
 st.markdown("가입 문의 : 네이버 웍스 or 메신져 or 메일")
 st.markdown("Service AI개발팀 김도형 A / OP기획팀 황혜림 M")
@@ -175,24 +175,25 @@ if st.session_state.submitted:
 
     st.markdown(f"<h2>총 {correct_count}개 맞춤!</h2>", unsafe_allow_html=True)
 
-    if correct_count >= 3:
+    if correct_count == len(st.session_state.sampled_quiz):
         st.text("축하합니다. 선물을 받아가세요!")
     else:
         st.text("아쉽네요. 참여 선물을 받아가세요~")
 
     for idx, q in enumerate(st.session_state.sampled_quiz):
         user_ans = st.session_state.user_answers[idx]
+        is_correct = user_ans == q["answer"]
+        border_color = "#4CAF50" if is_correct else "#E53935"  # 정답: 초록, 오답: 빨강
+        shown_ans = user_ans if user_ans is not None else "미선택"
 
         # 박스 스타일 HTML과 CSS
         box_html = f"""
-        <div style='border:2px solid #4CAF50; border-radius:10px; padding:15px; margin-bottom:10px;'>
+        <div style='border:2px solid {border_color}; border-radius:10px; padding:15px; margin-bottom:10px;'>
             <b>Q{idx+1}. {q['question']}</b><br>
-            {'정답' if user_ans == q["answer"] else '오답'}: {user_ans} (정답: {q['answer']})<br>
+            {'정답' if is_correct else '오답'}: {shown_ans} (정답: {q['answer']})<br>
             해설: {q['explanation']}
         </div>
         """
         st.markdown(box_html, unsafe_allow_html=True)
 
     st.balloons()
-
-
