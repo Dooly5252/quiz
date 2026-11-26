@@ -67,23 +67,44 @@ QUIZ_DATA = [
         "choices": ["다음 1번 투구 점수", "다음 2번 투구 점수", "다음 3번 투구 점수", "0점"],
         "answer": "다음 2번 투구 점수",
         "explanation": "스트라이크를 치면 다음 2번 투구 점수를 보너스로 받습니다."
+    },
+    # ----- 고난도 문제 -----
+    {
+        "question": "1프레임에서 스트라이크, 2프레임에서 7개와 2개를 쓰러뜨렸다면 1프레임의 점수는 몇 점인가요?",
+        "choices": ["17점", "19점", "20점", "29점"],
+        "answer": "19점",
+        "explanation": "스트라이크는 10점에 다음 2번 투구 점수를 더합니다. 10 + 7 + 2 = 19점입니다."
+    },
+    {
+        "question": "300점 만점인 '퍼펙트 게임'을 하려면 스트라이크를 연속 몇 번 쳐야 하나요?",
+        "choices": ["10번", "11번", "12번", "13번"],
+        "answer": "12번",
+        "explanation": "1~9프레임에서 9번, 10프레임에서 보너스 투구까지 3번, 총 12번 연속 스트라이크를 쳐야 300점이 됩니다."
+    },
+    {
+        "question": "공식 경기에서 사용할 수 있는 볼링공의 최대 무게는 얼마인가요?",
+        "choices": ["12파운드", "14파운드", "16파운드", "18파운드"],
+        "answer": "16파운드",
+        "explanation": "공식 규정상 볼링공은 최대 16파운드(약 7.26kg)까지 사용할 수 있습니다."
     }
 ]
 
 
 
-# 5개 랜덤 선택
+NUM_QUESTIONS = 6  # 출제 문제 수 (모두 맞혀야 선물)
+
+# 랜덤 선택
 if "sampled_quiz" not in st.session_state:
-    st.session_state.sampled_quiz = random.sample(QUIZ_DATA, 5)
-    st.session_state.user_answers = [None] * 5
+    st.session_state.sampled_quiz = random.sample(QUIZ_DATA, NUM_QUESTIONS)
+    st.session_state.user_answers = [None] * NUM_QUESTIONS
     st.session_state.submitted = False
 
 st.title("볼링 상식 퀴즈!!")
 st.text("")
-st.markdown("**5문제 모두 맞추면 선물을 드려요~**")
+st.markdown(f"**{NUM_QUESTIONS}문제 모두 맞추면 선물을 드려요~**")
 st.markdown("**볼링 동호회 가입 해주실거죠??!!**")
 st.markdown("가입 문의 : 네이버 웍스 or 메신져 or 메일")
-st.markdown("Agent 서비스팀 김도형 A / OP기획팀 황혜림 M")
+st.markdown("Service AI개발팀 김도형 A / OP기획팀 황혜림 M")
 st.divider()
 # 퀴즈 화면
 # for idx, q in enumerate(st.session_state.sampled_quiz):
