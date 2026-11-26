@@ -92,6 +92,7 @@ QUIZ_DATA = [
 
 
 NUM_QUESTIONS = 6  # 출제 문제 수 (모두 맞혀야 선물)
+CLAIM_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSesc0mK7rozF3fw8qxPE9w2yhLmNfHXZuJeqG6EaNmGl5qhFQ/viewform"  # 교환권 신청 구글 폼
 
 # 랜덤 선택
 if "sampled_quiz" not in st.session_state:
@@ -197,7 +198,10 @@ if st.session_state.submitted:
     st.markdown(f"<h2>총 {correct_count}개 맞춤!</h2>", unsafe_allow_html=True)
 
     if correct_count == len(st.session_state.sampled_quiz):
-        st.text("축하합니다. 선물을 받아가세요!")
+        st.success("🎉 축하합니다! 6문제 모두 맞히셨어요!")
+        st.markdown("아래 버튼을 눌러 **팀명과 이름**을 남겨주시면 선물 교환권을 드려요.  \n"
+                    "맞춤 상품이라 아직 배송 전이라, 선물이 도착하는 대로 연락드릴게요~ 🎁")
+        st.link_button("🎁 선물 교환권 신청하기", CLAIM_FORM_URL, type="primary", use_container_width=True)
     else:
         st.text("아쉽네요. 참여 선물을 받아가세요~")
 
